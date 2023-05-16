@@ -33,7 +33,7 @@ function FilterableMessageTable({ messages }) {
 
   messages.forEach((message) => {
     const messageText = message.toString();
-    if (messageText.toLowerCase().indexOf(filterText.toLowerCase() === -1){
+    if (messageText.toLowerCase().indexOf(filterText.toLowerCase() === -1) ){
       return;
     }
   
