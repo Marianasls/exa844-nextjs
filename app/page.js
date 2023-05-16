@@ -7,11 +7,10 @@ import { useState } from 'react';
 function SearchBar({filterText, onFilterTextChange}) {
   return (
     <form>
-      <p>Procure por uma mensagem</p>
-      <input type="text" value={filterText} placeholder="Search..." 
-      onChange={
-        (e) => onFilterTextChange(e.target.value)
-      }/>
+      <p>Procure uma mensagem</p>
+      <input style={{width:"100%"}}
+        type="text" value={filterText} placeholder="Search..." 
+        onChange={ (e) => onFilterTextChange(e.target.value) }/>
     </form>
   );
 }
