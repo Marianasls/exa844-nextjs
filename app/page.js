@@ -4,26 +4,25 @@ import styles from './page.module.css'
 import React from 'react';
 import { useState } from 'react';
 
-function MessageRow({ message }) {
-  var Message = message[0];
-  var Author = message[1];
-  var Date_m = new Date(message[2]).toLocaleString();
-  return (
-    <tr>
-      <td>{Author}</td>
-      <td>{Message}</td>
-      <td>{Date_m}</td>
-    </tr>
-  );
-}
-
 function SearchBar({filterText, onFilterTextChange}) {
   return (
     <form>
       <p>Procure por uma mensagem</p>
       <input type="text" value={filterText} placeholder="Search..." 
-      onChange={(e) => onFilterTextChange(e.target.value)}/>
+      onChange={
+        (e) => onFilterTextChange(e.target.value)
+      }/>
     </form>
+  );
+}
+
+function MessageRow({ message }) {
+  return (
+    <tr>
+      <td>{message[0]}</td>
+      <td>{message[1]}</td>
+      <td>{new Date(message[2]).toLocaleString()}</td>
+    </tr>
   );
 }
 
@@ -33,14 +32,15 @@ function FilterableMessageTable({ messages }) {
 
   messages.forEach((message) => {
     const messageText = message.toString();
-    if (messageText.toLowerCase().indexOf(filterText.toLowerCase() === -1) ){
+    if (messageText.toLowerCase().indexOf(filterText.toLowerCase()) === -1 ){
       return;
     }
   
     rows.push(
       <MessageRow
         message={message}
-        key={`${message[0]}-${message[2]}`} />
+        key={`${message[0]}-${message[2]}`}
+      />
     );
   });
 
