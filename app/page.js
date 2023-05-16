@@ -1,22 +1,18 @@
 "use client"; 
 
-import Image from 'next/image'
 import styles from './page.module.css'
 import React from 'react';
 import { useState } from 'react';
 
-
-//Coloque o código dos demais componentes aqui...]
-
 function MessageRow({ message }) {
   var Message = message[0];
   var Author = message[1];
-  var Date = message[2];
+  var Date_m = new Date(message[2]).toLocaleString();
   return (
     <tr>
       <td>{Author}</td>
       <td>{Message}</td>
-      <td>{Date}</td>
+      <td>{Date_m}</td>
     </tr>
   );
 }
@@ -24,53 +20,45 @@ function MessageRow({ message }) {
 function SearchBar({filterText, onFilterTextChange}) {
   return (
     <form>
+      <p>Procure por uma mensagem</p>
       <input type="text" value={filterText} placeholder="Search..." 
       onChange={(e) => onFilterTextChange(e.target.value)}/>
     </form>
   );
 }
 
-function MessageTable({ messages, filterText}) {
+function FilterableMessageTable({ messages }) {
+  const [filterText, setFilterText] = useState('');
   const rows = [];
+
   messages.forEach((message) => {
-    var Message = message[0];
-    var Author = message[1];
-    if (Author.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
+    const messageText = message.toString();
+    if (messageText.toLowerCase().indexOf(filterText.toLowerCase() === -1){
       return;
     }
-    if (Message.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
-      return;
-    }
+  
     rows.push(
       <MessageRow
         message={message}
-        key={message.Author} />
+        key={`${message[0]}-${message[2]}`} />
     );
   });
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Author</th>
-          <th>Message</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </table>
-  );
-}
-
-function FilterableMessageTable({ messages }) {
-  const [filterText, setFilterText] = useState('');
-
-  return (
     <div>
-      <SearchBar filterText={filterText}  onFilterTextChange={setFilterText} />
-      <MessageTable messages={messages} filterText={filterText} />
+      <SearchBar filterText={filterText} onFilterTextChange={setFilterText} />
+      <table>
+        <thead>
+          <tr>
+            <th>Author</th>
+            <th>Message</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
     </div>
-  ); 
+  );
 }
 
 
@@ -88,6 +76,7 @@ export default function Home() {
       <main className={styles.main}>
         <FilterableMessageTable messages={blogMessages} />
       </main>
-    )
+    );
+
 }
 
